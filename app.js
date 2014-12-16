@@ -73,6 +73,11 @@ app.get('/users/new', function(req, res) {
 	res.render('users/new');
 });
 
+// app.get('/sessions/newBoard', function(req, res) {
+// 	res.render('sessions/newBoard');
+// });
+
+
 app.post('/users', function(req, res) {
 	db.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3)', [req.body.username, req.body.email, req.body.password], function(err, dbRes) {
 			if (!err) {
@@ -81,13 +86,31 @@ app.post('/users', function(req, res) {
 	});
 });
 
+app.post('/boards', function(req, res){
+	db.query('INSERT INTO boards (board, price, location, contact, user_id) VALUES ($1, $2, $3, $4, $5)', [req.body.surfBoard, req.body.price, req.body.locate, req.body.email, req.user.id], function(err, dbRes){
+		if(!err){
+			res.redirect('/');
+		}
+	});
+});
+
 app.get('/sessions/new', function(req, res) {
 	res.render('sessions/new');
 });
 
-app.get('/sessions/addBoard', function(req, res) {
-	res.render('sessions/addBoard');
+app.get('/boards/newBoard', function(req, res) {
+	// If logged in...
+	if (req.user) {
+		res.render('boards/newBoard');
+	} else {
+		// If not logged in...
+		res.redirect('/');
+	}
 });
+
+app.get('/try', function(req, res){
+	res.render('try');
+})
 
 app.get('/users/new', function(req, res) {
 	res.render('users/new');
