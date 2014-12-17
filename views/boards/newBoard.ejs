@@ -34,7 +34,17 @@
 var geocoder;
 var map;
 
+var marcadores_nuevos = [];
+
+function quitar_marcadores(lista)
+{
+  for(i in lista) {
+    lista[i].setMap(null);
+  }
+}
 function initialize() {
+
+  var formulario=$('#formulario');
   geocoder = new google.maps.Geocoder();
   var latlng = new google.maps.LatLng(37.785300, -122.436674);
   var mapOptions = {
@@ -60,6 +70,7 @@ function initialize() {
     // alert("Las coordenadas son " + lista[1]);
 
     var direccion = new google.maps.LatLng(lista[0], lista[1]);
+      // alert(direccion)
 
     var marker = new google.maps.Marker({
       position:direccion,
@@ -68,6 +79,10 @@ function initialize() {
       draggable: false
     });
 
+    formulario.find("input[name='cx']").val(lista[0]);
+    formulario.find("input[name='cy']").val(lista[1]);
+    quitar_marcadores(marcadores_nuevos);
+    marcadores_nuevos.push(marker);
     marker.setMap(map)
 
      var contentString = document.getElementById('surfBoard').value + document.getElementById('price').value;
@@ -122,7 +137,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div id="map-canvas"></div>
 
 <div class="span3 offset2">
-    <form action="/boards" method="POST">
+    <form action="/boards" method="POST" id="formulario">
         <div class="form-inline">
              <input id="address" type="textbox" value="San Francisco, CA" name="locate">
              <button type="button" class="btn btn-primary" onclick="codeAddress()" name="Geocode"></button>
@@ -133,8 +148,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
             <input type="text" class="form-control" id="surfBoard" placeholder="Surf Board" name="surfBoard">
             <label for="price">Price</label>
             <input type="text" class="form-control" id="price" placeholder="Price" name="price">
-            <label for="inputPassword">Contact</label>
+            <label for="email">Contact</label>
             <input type="email" class="form-control" id="contact" placeholder="email" name="email">
+            <label for="locationx">Locationx</label>
+            <input type="text"  class="form-control" id="cx" placeholder="cx" name="cx" readonly>
+            <label for="cy">Locationy</label>
+            <input type="text"  class="form-control" id="cy" placeholder="cy" name="cy" readonly>
         </div>
             <button type="submit" class="btn btn-primary">Login</button>
     </form>

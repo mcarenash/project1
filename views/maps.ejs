@@ -1,6 +1,6 @@
 <html>
   <head>
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
@@ -39,26 +39,36 @@ function initialize() {
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
   // google.maps.event.addListener(map, "click", function(event){
-  // 	alert(event.latlng);
+  //  alert(event.latlng);
   // });
   // var contentString = prompt("S")
-  var contentString = "Camila";
+   
+  <% var points=[]; %>
+  var contentString = "a";
+  <% for(var i=0; i<surfboards.length;i++){ %>
 
+ points=([<%=surfboards[i].cx%>,<%=surfboards[i].cy%>]) 
+ console.log(points)
+
+
+  console.log("test",<%= cho %>)
+    
   var infowindow = new google.maps.InfoWindow({
-  	content: contentString
+    content: contentString
   });
-
+  
   var marker = new google.maps.Marker({
-  	position:latlng,
-  	map:map,
-  	title: 'tryyy'
+    position:new google.maps.LatLng(points[0], points[1]),
+    map:map,
+    title: 'tryyy'
   });
 
-  google.maps.event.addListener(marker, 'click', function(){
-  	infowindow.open(map,marker);
+    google.maps.event.addListener(marker, 'click', function(){
+    infowindow.open(map,marker);
   });
+<%}%>
 
-
+  
 }
 
 function codeAddress() {

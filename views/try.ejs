@@ -1,3 +1,7 @@
+
+
+
+
 <html>
 <head>
 
@@ -5,11 +9,19 @@
 
 </head>
 <body>
-<script>
-	var a=db.query('SELECT * FROM users WHERE id = $1');
-	<h1>a</h1>
-</script>
-	<title></title>
+ 
+
+<ul>
+<% for(var i=0; i<surfboards.length; i++) {%>
+   <li><%= surfboards[i].cx %></li>
+<% } %>
+</ul>
+
+
+
+
+
+
 
 </body>
 </html>

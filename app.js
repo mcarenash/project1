@@ -63,11 +63,31 @@ app.get('/', function(req, res) {
 });
 
 app.get('/maps', function(req, res) {
-	console.log(req.query.location)
-	res.render('maps', { location: req.query.location });
+	db.query('SELECT * FROM boards', function(err, dbRes){
+		console.log(dbRes)
+		if(!err) {
+			res.render('maps', { location: req.query.location,
+								surfboards: dbRes.rows,
+							    cho: 787});
+		}
+	})
 
 });
+	
+	// res.render('maps', { location: req.query.location ,
+	//                       // surfboards: results
+	//                   });
 
+
+app.get('/try', function(req, res){
+
+	db.query('SELECT * FROM boards', function(err, dbRes){
+		
+		if(!err) {
+			res.render('try',{surfboards:dbRes.rows})
+		}
+	})
+});
 
 app.get('/users/new', function(req, res) {
 	res.render('users/new');
@@ -86,8 +106,21 @@ app.post('/users', function(req, res) {
 	});
 });
 
+// app.get('/try', function(req, res){
+// 	// var a=req.params.username
+
+// 	db.query('SELECT location FROM boards', function(err, dbRes){
+		
+// 		if(!err) {
+// 			res.render('try', {surfboards: dbRes.rows})
+// 		}
+// 	})
+// })
+
+
+
 app.post('/boards', function(req, res){
-	db.query('INSERT INTO boards (board, price, location, contact, user_id) VALUES ($1, $2, $3, $4, $5)', [req.body.surfBoard, req.body.price, req.body.locate, req.body.email, req.user.id], function(err, dbRes){
+	db.query('INSERT INTO boards (board, price, location, contact, user_id, cx, cy) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.body.surfBoard, req.body.price, req.body.location, req.body.email, req.user.id, req.body.cx, req.body.cy], function(err, dbRes){
 		if(!err){
 			res.redirect('/');
 		}
