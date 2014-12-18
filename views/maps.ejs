@@ -40,6 +40,16 @@
 var geocoder;
 var map;
 
+var locations = [
+  {
+    name: 'San Francisco',
+    something: 'data'
+  },
+  {
+    name: 'New York'
+  }
+]
+
 
 function initialize() {
   geocoder = new google.maps.Geocoder();
@@ -56,10 +66,11 @@ function initialize() {
   // var contentString = prompt("S")
    
   <% var points=[]; %>
-  <% var markers = []; %>
+  <% var markers, i; %>
   <% var InfoWindows = []; %>
+   var infowindow = new google.maps.InfoWindow();
   // var contentString = "a";
-  <% for(var i=0; i<surfboards.length;i++){ %>
+  <% for(i=0; i<surfboards.length;i++){ %>
 
  points=([<%=surfboards[i].cx%>,<%=surfboards[i].cy%>]) 
  console.log(points)
@@ -69,20 +80,23 @@ function initialize() {
     var marker = new google.maps.Marker({
     position:new google.maps.LatLng(points[0], points[1]),
     map:map,
-    title: 'tryyy'
   });
 
-  var infowindow = new google.maps.InfoWindow({
-    <%content: surfboards[i].price%>
-    // content:"2",
-    position:new google.maps.LatLng(points[0], points[1])
-  });
+  // var infowindow = new google.maps.InfoWindow({
+  //   <%content: surfboards[i].price%>
+  //   // content:"2",
+  //   position:new google.maps.LatLng(points[0], points[1])
+  // });
   
 
 
-    google.maps.event.addListener(marker, 'click', function(event){
-    infowindow[this].open(map,this);
-  });
+    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+  return function() {
+    infowindow.setContent('SURF: <%=(surfboards[i].price)%>');
+    infowindow.open(map, marker);
+    // console.log(infowindow)
+  }
+})(marker, <%=i%>));
 <%}%>
 
   
