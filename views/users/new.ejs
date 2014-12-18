@@ -5,6 +5,7 @@
 	<style>
 	body{
 		margin: 30px;
+		background-color:#EFEFF2;
 	}
 
 	.row{
@@ -25,10 +26,10 @@
 </div>
 
 	<h1>Sign up</h1><br>
-	<form method="POST" action="/users">
-		<label>Username: <input type="text" placeholder="Username" name="username" autofocus></label><br><br>
-		<label>Email:    <input type="text" placeholder="Email" name="email"></label><br><br>
-		<label>Password: <input type="password" placeholder="Password" name="password"></label><br><br>
+	<form method="POST" action="/users" class="form-group">
+		<label>Username: <input type="text" placeholder="Username" name="username" class="form-control" autofocus></label><br><br>
+		<label>Email:    <input type="text" class="form-control" placeholder="Email" name="email"></label><br><br>
+		<label>Password: <input type="password" placeholder="Password" name="password" class="form-control"></label><br><br>
 		<button type="submit" class="btn btn-warning">Submit</button>
 	</form>
 </body>

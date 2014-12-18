@@ -5,17 +5,32 @@
 	<style>
 	body{
 		margin: 30px;
+		background-color:#EFEFF2;
 	}
+
+	.row{
+        font-size: 20px;
+        text-align: right;
+        margin-top: 20px;
+      }
 	</style>
 </head>
+
 <body>
-	<h1>Login</h1> <br><br>
+	 <div class="row">
+	  <div class="col-md-12">
+	    <ul class="list-inline">
+	    <li><a href="/">Home</a> </li>
+	    </ul>
+	  </div>
+	 </div>
 
-<form name="login" method="POST" action="/sessions">
-	<label>username:  <input type="text" name="username" autofocus></label> <br><br>
+    <h1>Login</h1> <br><br>
 
-	<label>password:  <input type="password" name="password"></label><br><br>
-	<button type="submit" class="btn btn-warning">Submit</button>
+<form name="login" method="POST" action="/sessions" class="form-group">
+	<label>username:  <input type="text" name="username" autofocus class="form-group "></label> <br><br>
+	<label>password:  <input type="password" name="password" class="form-group"></label><br><br>
+	<button type="submit" class="btn btn-warning" class="form-group">Submit</button>
 </form>
 </body>
 </html>

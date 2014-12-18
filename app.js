@@ -22,6 +22,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 passport.serializeUser(function(user, done) {
   done(null, user.id);
 });
@@ -64,15 +65,18 @@ app.get('/', function(req, res) {
 
 app.get('/maps', function(req, res) {
 	db.query('SELECT * FROM boards', function(err, dbRes){
-		console.log(dbRes)
+	   
+		var boards = dbRes.rows
+		 console.log("==========")
+	    console.log(typeof [])
+	     console.log("==========")
 		if(!err) {
-			res.render('maps', { location: req.query.location,
-								surfboards: dbRes.rows,
-							    cho: 787});
+			res.render('maps',{surfboards: boards, location: req.query.location});
 		}
-	})
 
+	});
 });
+
 	
 	// res.render('maps', { location: req.query.location ,
 	//                       // surfboards: results

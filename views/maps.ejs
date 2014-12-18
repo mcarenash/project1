@@ -4,23 +4,35 @@
 
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Geocoding service</title>
+    <title>Where are you going?</title>
     <style>
-      html, body, #map-canvas {
-        height: 85%;
-        width: 85%;
-        margin: 50px;
+       body{
+        margin:20px;
+        background-color: #EFEFF2;
+       } 
+
+      #map-canvas {
+        height: 95%;
+        width: 100%;
+        margin-bottom: 10px;
         padding: 0px
       }
       #panel {
         position: absolute;
-        top: 50px;
+        top: 100px;
         left: 50%;
         margin-left: -180px;
         z-index: 5;
         background-color: #fff;
         padding: 5px;
         border: 1px solid #999;
+      }
+
+
+      .row{
+        font-size: 20px;
+        text-align: right;
+        margin-top: 20px;
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
@@ -33,7 +45,7 @@ function initialize() {
   geocoder = new google.maps.Geocoder();
   var latlng = new google.maps.LatLng(37.785300, -122.436674);
   var mapOptions = {
-    zoom: 15,
+    zoom: 10,
     center: latlng
   }
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -44,14 +56,13 @@ function initialize() {
   // var contentString = prompt("S")
    
   <% var points=[]; %>
-  var contentString = "a";
+
   <% for(var i=0; i<surfboards.length;i++){ %>
 
  points=([<%=surfboards[i].cx%>,<%=surfboards[i].cy%>]) 
  console.log(points)
 
 
-  console.log("test",<%= cho %>)
     
   var infowindow = new google.maps.InfoWindow({
     content: contentString
@@ -76,10 +87,10 @@ function codeAddress() {
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       map.setCenter(results[0].geometry.location);
-      var marker = new google.maps.Marker({
-          map: map,
-          position: results[0].geometry.location
-      });
+      // var marker = new google.maps.Marker({
+      //     map: map,
+      //     position: results[0].geometry.location
+      // });
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
@@ -95,15 +106,18 @@ window.onload = function() {
 }
     </script>
 
-
-
-
   </head>
   <body>
-  <a href="/">Home</a>
+  <div class="row">
+  <div class="col-md-12">
+    <ul class="list-inline">
+    <li><a href="/">Home</a> </li>
+    </ul>
+    </div>
+    </div>
     <div id="panel">
       <input id="address" type="textbox" value="<%= location %>">
-      <input type="button" value="Geocode" onclick="codeAddress()">
+      <input type="button" value="New Search" onclick="codeAddress()">
     </div>
     <div id="map-canvas"></div>
   </body>
