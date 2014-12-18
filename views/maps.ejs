@@ -56,26 +56,32 @@ function initialize() {
   // var contentString = prompt("S")
    
   <% var points=[]; %>
-
+  <% var markers = []; %>
+  <% var InfoWindows = []; %>
+  // var contentString = "a";
   <% for(var i=0; i<surfboards.length;i++){ %>
 
  points=([<%=surfboards[i].cx%>,<%=surfboards[i].cy%>]) 
  console.log(points)
+// <%var contentString=surfboards[i].price%>
+  console.log(<%=surfboards[i].price%>)
 
-
-    
-  var infowindow = new google.maps.InfoWindow({
-    content: contentString
-  });
-  
-  var marker = new google.maps.Marker({
+    var marker = new google.maps.Marker({
     position:new google.maps.LatLng(points[0], points[1]),
     map:map,
     title: 'tryyy'
   });
 
-    google.maps.event.addListener(marker, 'click', function(){
-    infowindow.open(map,marker);
+  var infowindow = new google.maps.InfoWindow({
+    <%content: surfboards[i].price%>
+    // content:"2",
+    position:new google.maps.LatLng(points[0], points[1])
+  });
+  
+
+
+    google.maps.event.addListener(marker, 'click', function(event){
+    infowindow[this].open(map,this);
   });
 <%}%>
 

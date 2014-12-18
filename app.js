@@ -60,7 +60,7 @@ var localStrategy = new LocalStrategy(
 passport.use(localStrategy);
 
 app.get('/', function(req, res) {
-	res.render('index', { user: req.user });
+	res.render('index', { user: req.user});
 });
 
 app.get('/maps', function(req, res) {
@@ -126,7 +126,8 @@ app.post('/users', function(req, res) {
 app.post('/boards', function(req, res){
 	db.query('INSERT INTO boards (board, price, location, contact, user_id, cx, cy) VALUES ($1, $2, $3, $4, $5, $6, $7)', [req.body.surfBoard, req.body.price, req.body.location, req.body.email, req.user.id, req.body.cx, req.body.cy], function(err, dbRes){
 		if(!err){
-			res.redirect('/');
+			// pass a variable to EJS
+			res.render('index');
 		}
 	});
 });
