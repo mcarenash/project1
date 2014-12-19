@@ -2,92 +2,109 @@
 <head>
 	<title>Rent a surf board</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-<style>
+  <style>
 
-body{
-  background-image: url('http://i60.tinypic.com/29x9jj7.jpg');
-    background-size: cover;  
-    margin: 30px;   
-}
+    body{
+      background-image: url('http://i60.tinypic.com/29x9jj7.jpg');
+      background-size: cover;  
+      margin: 30px;   
+    }
 
-h1{
-  text-align: center;
-  margin-top: 90px;
-}
+    h1{
+      text-align: center;
+      margin-top: 90px;
+    }
 
-form{
-  margin-top: 80px;
-}
+    h2{
+      font-size: 18px;
+      text-align: center;
+    }
 
-.row{
-  font-size: 20px;
-  text-align: right;
-  margin-top: 20px;
-}
+    form{
+      margin-top: 80px;
+    }
 
+    .row{
+      font-size: 20px;
+      text-align: right;
+      margin-top: 20px;
+    }
+    .logout{
+      text-align: right;
+      margin-top: -60px;
+    }
 
-</style>
+  </style>
 </head>
 
 <body onload="initialize()">
 
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
-    <script>
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+  <script>
 
-var placeSearch, autocomplete;
-var componentForm = {
-  street_number: 'short_name',
-  route: 'long_name',
-  locality: 'long_name',
-  administrative_area_level_1: 'short_name',
-  country: 'long_name',
-  postal_code: 'short_name'
-};
+    var placeSearch, autocomplete;
+    var componentForm = {
+      street_number: 'short_name',
+      route: 'long_name',
+      locality: 'long_name',
+      administrative_area_level_1: 'short_name',
+      country: 'long_name',
+      postal_code: 'short_name'
+    };
 
-function initialize() {
+    function initialize() {
 
-  autocomplete = new google.maps.places.Autocomplete(
-      (document.getElementById('autocomplete')),
-      { types: ['geocode'] });
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      autocomplete = new google.maps.places.Autocomplete(
+        (document.getElementById('autocomplete')),
+        { types: ['geocode'] });
+      google.maps.event.addListener(autocomplete, 'place_changed', function() {
     // fillInAddress();
   });
-}
+    }
 
-function geolocate() {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var geolocation = new google.maps.LatLng(
-          position.coords.latitude, position.coords.longitude);
-      var circle = new google.maps.Circle({
-        center: geolocation,
-        radius: position.coords.accuracy
-      });
-      autocomplete.setBounds(circle.getBounds());
-    });
-  }
-}
-    </script>
+    function geolocate() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var geolocation = new google.maps.LatLng(
+            position.coords.latitude, position.coords.longitude);
+          var circle = new google.maps.Circle({
+            center: geolocation,
+            radius: position.coords.accuracy
+          });
+          autocomplete.setBounds(circle.getBounds());
+        });
+      }
+    }
+  </script>
   
-<div class="row">
-  <div class="col-md-12">
-  	<ul class="list-inline">
-		<li><a href="sessions/new">Login</a> </li>
-    <li><a href="users/new">New User?</a> </li>
-    <li><a href="boards/newBoard">List your Surf Board</a> </li>
-	</ul>
+  <div class="row">
+    <div class="col-md-12">
+     <ul class="list-inline">
+      <%if(!user){ %>
+      <li><a href="sessions/new">Login</a> </li>
+      <li><a href="users/new">New User?</a> </li>
+      <%}%>
+      <li><a href="boards/newBoard">List your Surf Board</a> </li>
+    </ul>
   </div>
 </div>
+<% if(user){ %>
+<h2> Welcome <%= user.username %> </h2>
+
+<form  class="logout" action="/sessions?_method=DELETE" method="POST">
+  <input type="submit" value="Log out">
+</form>
+<% } %>
 
 <h1>RENT A SURF BOARD</h1> 
 
 <form name="where" method="GET" action="/maps">
   <div align="center" class="row2">
-	 <ul class="list-inline">
-	   <li><input id="autocomplete" name="location" placeholder="Where are you going" onFocus="geolocate()" type="text" autofocus style="width: 400px; height:30px;"></input></li>
-	   <li><button type="submit" class="btn btn-warning">Submit</button></li>
-  </div>	  	
-</form>
+    <ul class="list-inline">
+      <li><input id="autocomplete" name="location" placeholder="Where are you going" onFocus="geolocate()" type="text" autofocus style="width: 400px; height:30px;"></input></li>
+      <li><button type="submit" class="btn btn-warning">Submit</button></li>
+    </div>	  	
+  </form>
 
 </body>
 </html>

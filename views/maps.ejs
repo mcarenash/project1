@@ -1,46 +1,46 @@
 <html>
-  <head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Where are you going?</title>
-    <style>
-       body{
-        margin:20px;
-        background-color: #EFEFF2;
-       } 
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+  <meta charset="utf-8">
+  <title>Where are you going?</title>
+  <style>
+   body{
+    margin:20px;
+    background-color: #EFEFF2;
+  } 
 
-      #map-canvas {
-        height: 95%;
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 0px
-      }
-      #panel {
-        position: absolute;
-        top: 100px;
-        left: 50%;
-        margin-left: -180px;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-      }
+  #map-canvas {
+    height: 95%;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 0px
+  }
+  #panel {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    margin-left: -180px;
+    z-index: 5;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+  }
 
 
-      .row{
-        font-size: 20px;
-        text-align: right;
-        margin-top: 20px;
-      }
-    </style>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-    <script>
-var geocoder;
-var map;
+  .row{
+    font-size: 20px;
+    text-align: right;
+    margin-top: 20px;
+  }
+</style>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script>
+  var geocoder;
+  var map;
 
-var locations = [
+  var locations = [
   {
     name: 'San Francisco',
     something: 'data'
@@ -48,61 +48,47 @@ var locations = [
   {
     name: 'New York'
   }
-]
+  ]
 
 
-function initialize() {
-  geocoder = new google.maps.Geocoder();
-  var latlng = new google.maps.LatLng(37.785300, -122.436674);
-  var mapOptions = {
-    zoom: 10,
-    center: latlng
-  }
-  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+  function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(37.785300, -122.436674);
+    var mapOptions = {
+      zoom: 10,
+      center: latlng
+    }
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-  // google.maps.event.addListener(map, "click", function(event){
-  //  alert(event.latlng);
-  // });
-  // var contentString = prompt("S")
-   
-  <% var points=[]; %>
-  <% var markers, i; %>
-  <% var InfoWindows = []; %>
-   var infowindow = new google.maps.InfoWindow();
+    <% var points=[]; %>
+    <% var markers, i; %>
+    <% var InfoWindows = []; %>
+    var infowindow = new google.maps.InfoWindow();
   // var contentString = "a";
   <% for(i=0; i<surfboards.length;i++){ %>
 
- points=([<%=surfboards[i].cx%>,<%=surfboards[i].cy%>]) 
- console.log(points)
-// <%var contentString=surfboards[i].price%>
-  console.log(<%=surfboards[i].price%>)
+   points=([<%=surfboards[i].cx%>,<%=surfboards[i].cy%>]) 
+   console.log(points)
+   console.log(<%=surfboards[i].price%>)
 
-    var marker = new google.maps.Marker({
+   
+   var marker = new google.maps.Marker({
     position:new google.maps.LatLng(points[0], points[1]),
     map:map,
   });
 
-  // var infowindow = new google.maps.InfoWindow({
-  //   <%content: surfboards[i].price%>
-  //   // content:"2",
-  //   position:new google.maps.LatLng(points[0], points[1])
-  // });
-  
+   google.maps.event.addListener(marker, 'click', (function(marker, i) {
+    return function() {
+      infowindow.setContent('$<%=(surfboards[i].price)%>/hr <br>'+'<%=surfboards[i].contact%>');
+      infowindow.open(map, marker);
+    }
+  })(marker, <%=i%>));
+   <%}%>
 
 
-    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-  return function() {
-    infowindow.setContent('SURF: <%=(surfboards[i].price)%>');
-    infowindow.open(map, marker);
-    // console.log(infowindow)
-  }
-})(marker, <%=i%>));
-<%}%>
+ }
 
-  
-}
-
-function codeAddress() {
+ function codeAddress() {
   var address = document.getElementById('address').value;
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
@@ -111,10 +97,10 @@ function codeAddress() {
       //     map: map,
       //     position: results[0].geometry.location
       // });
-    } else {
-      alert('Geocode was not successful for the following reason: ' + status);
-    }
-  });
+} else {
+  alert('Geocode was not successful for the following reason: ' + status);
+}
+});
 }
 
 
@@ -124,21 +110,21 @@ window.onload = function() {
   console.log('loaded!');
   codeAddress();
 }
-    </script>
+</script>
 
-  </head>
-  <body>
+</head>
+<body>
   <div class="row">
-  <div class="col-md-12">
-    <ul class="list-inline">
-    <li><a href="/">Home</a> </li>
-    </ul>
+    <div class="col-md-12">
+      <ul class="list-inline">
+        <li><a href="/">Home</a> </li>
+      </ul>
     </div>
-    </div>
-    <div id="panel">
-      <input id="address" type="textbox" value="<%= location %>">
-      <input type="button" value="New Search" onclick="codeAddress()">
-    </div>
-    <div id="map-canvas"></div>
-  </body>
+  </div>
+  <div id="panel">
+    <input id="address" type="textbox" value="<%= location %>">
+    <input type="button" value="New Search" onclick="codeAddress()">
+  </div>
+  <div id="map-canvas"></div>
+</body>
 </html>
