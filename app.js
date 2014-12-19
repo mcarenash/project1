@@ -86,7 +86,7 @@ app.get('/maps', function(req, res) {
 app.get('/try', function(req, res){
 
 	db.query('SELECT * FROM boards',  function(err, dbRes){
-		console.log(dbRes.rows[0].contact)
+		console.log(dbRes.rows[0].board)
 		if(!err) {
 			res.render('try',{surfboards:dbRes.rows})
 		}

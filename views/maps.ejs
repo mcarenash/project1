@@ -40,17 +40,6 @@
   var geocoder;
   var map;
 
-  var locations = [
-  {
-    name: 'San Francisco',
-    something: 'data'
-  },
-  {
-    name: 'New York'
-  }
-  ]
-
-
   function initialize() {
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(37.785300, -122.436674);
@@ -71,15 +60,19 @@
    console.log(points)
    console.log(<%=surfboards[i].price%>)
 
-   
+   var image={
+    url:"http://s27.postimg.org/cudx1tga7/board.png",
+      
+   }
    var marker = new google.maps.Marker({
     position:new google.maps.LatLng(points[0], points[1]),
+    icon:image,
     map:map,
   });
 
    google.maps.event.addListener(marker, 'click', (function(marker, i) {
     return function() {
-      infowindow.setContent('Price: $<%=(surfboards[i].price)%>/hr <br>'+'Contact: <%=surfboards[i].contact%>');
+      infowindow.setContent('Price: $<%=(surfboards[i].price)%>/hr <br>'+'Contact: <%=surfboards[i].contact%> <br>'+'Type of Board: <%=surfboards[i].board%>');
       infowindow.open(map, marker);
     }
   })(marker, <%=i%>));
@@ -93,10 +86,7 @@
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       map.setCenter(results[0].geometry.location);
-      // var marker = new google.maps.Marker({
-      //     map: map,
-      //     position: results[0].geometry.location
-      // });
+     
 } else {
   alert('Geocode was not successful for the following reason: ' + status);
 }
