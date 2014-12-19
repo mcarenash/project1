@@ -79,7 +79,7 @@
 
    google.maps.event.addListener(marker, 'click', (function(marker, i) {
     return function() {
-      infowindow.setContent('$<%=(surfboards[i].price)%>/hr <br>'+'<%=surfboards[i].contact%>');
+      infowindow.setContent('Price: $<%=(surfboards[i].price)%>/hr <br>'+'Contact: <%=surfboards[i].contact%>');
       infowindow.open(map, marker);
     }
   })(marker, <%=i%>));

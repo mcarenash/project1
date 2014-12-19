@@ -35,7 +35,7 @@ passport.deserializeUser(function(id, done) {
 	});
 });
 
-app.listen(8080, function(){
+app.listen(process.env.PORT||8080, function(){
 	console.log('Server is running in port 8080')
 });
 
